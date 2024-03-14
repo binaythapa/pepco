@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 
+import json
 from .models import * 
 from .serializers import *
 from django.http import JsonResponse
@@ -164,14 +165,17 @@ class Validator(APIView):
             for file_name, excel_data in excel_data_dict.items():
                 globals()[file_name] = pd.DataFrame(excel_data)
 
-            print(sql_query)
+            
             index_df = sqldf(sql_query, globals())  
-            index_info = index_df.info()
-            #print(test) 
-            #print(test1)     
-            print(index_df)  
-            #print(test.info())  
-            print(index_df.info())           
+            print(test)
+            print(test1)
+            print(index_df)
+            '''
+            x= index_df 
+            index_info = x.info()                
+            #print(index_df)  
+            print("index_info",index_info)
+            #print("index_df.info()",index_df.info())                    
             
             # Convert index_df to JSON
             index_df_json = index_df.to_json(orient='records')
@@ -182,6 +186,38 @@ class Validator(APIView):
                             }
             # Return index_df_json as a JSON response
             return Response(response_data,status=status.HTTP_200_OK)
+
+            '''
+            
+
+            #index_df = sqldf(sql_query, globals())
+
+            # Convert index_df to JSON
+            index_df_json = index_df.to_json(orient='records')
+
+            # Convert non-serializable data types in dtypes to strings
+            dtypes_serializable = {key: str(value) for key, value in index_df.dtypes.to_dict().items()}
+
+            # Extract information about the DataFrame
+            index_info = {
+                "columns": list(index_df.columns),
+                "dtypes": dtypes_serializable,  # Use the serializable data types
+                "shape": index_df.shape
+            }
+
+            # Convert index_info to JSON
+            index_info_json = json.dumps(index_info)
+
+            # Construct response data
+            response_data = {
+                "index_df": index_df_json,
+                "index_info": index_info_json
+            }
+            print(response_data)
+            # Return response
+            return Response(response_data, status=status.HTTP_200_OK)
+
+
         if project:            
             return None
 
@@ -235,8 +271,16 @@ class Terminal(APIView):
 
     def post(self, request, *args, **kwargs):
         # Retrieve data from request body
-        sql_query = request.data.get('sql_query')        
-        project_id = kwargs.get('project_id')
+        sql_query = request.data.get('sql_query') 
+        #project_id = kwargs.get('project_id')
+        
+        try:        
+            project_id = kwargs.get('project_id')   
+        except: 
+            project_id =request.data.get('project_id')           
+            
+                
+        
         print(sql_query)
         print(project_id)
             

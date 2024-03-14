@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('validate/', Validator.as_view(), name='validate'),
     path('validate/<int:project_id>/', Validator.as_view(), name='validate'),
+    path('terminal/', Terminal.as_view(), name='terminal'),
     path('terminal/<int:project_id>/', Terminal.as_view(), name='terminal'),
 ]
