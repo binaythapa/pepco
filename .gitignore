@@ -1,3 +1,7 @@
+*.cpython.*
+db.sqlite3
+venv
+media
 .DS_Store
 .huskyrc.json
 out
