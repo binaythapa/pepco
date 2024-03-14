@@ -1,0 +1,6 @@
+test_firstname,test_salary,test1_firstname,test1_lastname,test1_salary,firstname_match,salary_match
+Vny,50000,Vny,Tpa,50000,true,true
+bnson,60000,bnson,bsl,60000,true,true
+bnson,60000,bnson,bsl,70000,true,false
+bnson,60000,bnson,bsl,60000,true,true
+bnson,60000,bnson,bsl,70000,true,false

@@ -1,0 +1,15 @@
+POST http://127.0.0.1:8000/account/signup 
+Content-Type: application/json
+{ "username": "binay", "password": "binay", "email": "binay@mail.com" }
+
+###
+send request
+POST http://127.0.0.1:8000/account/login 
+Content-Type: application/json
+{ "username": "binay", "password": "binay" }
+
+###
+
+GET http://127.0.0.1:8000/account/test_token 
+Content-Type: application/json
+Authorization: token xxx
