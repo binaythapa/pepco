@@ -81,7 +81,30 @@ class FileUploadViewSet(ModelViewSet):
     
 class ProjectUploadViewSet(ModelViewSet):
     queryset = Project.objects.all()
-    serializer_class = ProjectSerializer  
+    serializer_class = ProjectSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        '''
+        # Access the associated mapping and SQL query
+        mapping_data = {
+            "file1_columns": instance.mapping.file1_columns,
+            "file2_columns": instance.mapping.file2_columns,
+            "file1": instance.mapping.file1,
+            #"join_types": instance.mapping.join_types,
+            "file2": instance.mapping.file2,
+            "join_on": instance.mapping.join_on,
+        }
+        '''
+        sql_query = instance.mapping.sql.sql_query
+
+        # Include mapping and SQL query data in the response
+        response_data = serializer.data
+        #response_data['mapping'] = mapping_data
+        response_data['sql_query'] = sql_query
+
+        return Response(response_data)  
 
 
 class MappingUploadViewSet(ModelViewSet):
@@ -167,9 +190,9 @@ class Validator(APIView):
 
             
             index_df = sqldf(sql_query, globals())  
-            print(test)
-            print(test1)
-            print(index_df)
+            print(file1)
+            print(file2)
+            #print(index_df)
             '''
             x= index_df 
             index_info = x.info()                
@@ -213,7 +236,8 @@ class Validator(APIView):
                 "index_df": index_df_json,
                 "index_info": index_info_json
             }
-            print(response_data)
+            print(index_df)
+            print(index_info_json)
             # Return response
             return Response(response_data, status=status.HTTP_200_OK)
 
@@ -272,13 +296,15 @@ class Terminal(APIView):
     def post(self, request, *args, **kwargs):
         # Retrieve data from request body
         sql_query = request.data.get('sql_query') 
+        #project_id =request.data.get('project_id') 
         #project_id = kwargs.get('project_id')
+        
         
         try:        
             project_id = kwargs.get('project_id')   
         except: 
             project_id =request.data.get('project_id')           
-            
+          
                 
         
         print(sql_query)
