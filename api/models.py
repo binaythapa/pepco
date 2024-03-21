@@ -1,15 +1,26 @@
 from django.db import models
 import os
+from uuid import uuid4
 
 
-def file_upload_path(instance, filename):    
-    return os.path.join('excel', instance.category.name, filename)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return f'{self.name}'
+    
+def file_upload_path(instance, filename):
+    # Get the file's extension
+    _, extension = os.path.splitext(filename)
+    
+    # Generate a unique filename using a UUID and timestamp
+    unique_filename = f"{uuid4().hex}{extension}"
+    
+    # Return the upload path
+    return os.path.join('uploads', unique_filename)
+
 
 class File(models.Model):
     DEFAULT_CATEGORY_ID = 1  # Assuming the default category ID is 1
