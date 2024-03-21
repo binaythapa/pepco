@@ -97,12 +97,15 @@ class ProjectUploadViewSet(ModelViewSet):
             "join_on": instance.mapping.join_on,
         }
         '''
-        sql_query = instance.mapping.sql.sql_query
+        try:
+            sql_query = instance.mapping.sql.sql_query
 
-        # Include mapping and SQL query data in the response
-        response_data = serializer.data
-        #response_data['mapping'] = mapping_data
-        response_data['sql_query'] = sql_query
+            # Include mapping and SQL query data in the response
+            response_data = serializer.data
+            #response_data['mapping'] = mapping_data
+            response_data['sql_query'] = sql_query
+        except:
+            response_data = serializer.data
 
         return Response(response_data)  
 
