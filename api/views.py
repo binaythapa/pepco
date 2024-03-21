@@ -190,8 +190,7 @@ class Validator(APIView):
 
             
             index_df = sqldf(sql_query, globals())  
-            print(file1)
-            print(file2)
+            
             #print(index_df)
             '''
             x= index_df 
@@ -236,8 +235,7 @@ class Validator(APIView):
                 "index_df": index_df_json,
                 "index_info": index_info_json
             }
-            print(index_df)
-            print(index_info_json)
+            
             # Return response
             return Response(response_data, status=status.HTTP_200_OK)
 
