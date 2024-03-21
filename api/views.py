@@ -294,15 +294,15 @@ class Terminal(APIView):
     def post(self, request, *args, **kwargs):
         # Retrieve data from request body
         sql_query = request.data.get('sql_query') 
-        #project_id =request.data.get('project_id') 
+        project_id =request.data.get('project_id') 
         #project_id = kwargs.get('project_id')
         
-        
+        '''
         try:        
             project_id = kwargs.get('project_id')   
         except: 
             project_id =request.data.get('project_id')           
-          
+        '''  
                 
         
         print(sql_query)
