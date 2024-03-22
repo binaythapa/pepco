@@ -10,7 +10,7 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.name}'
-    
+'''    
 def file_upload_path(instance, filename):
     # Get the file's extension
     _, extension = os.path.splitext(filename)
@@ -20,7 +20,9 @@ def file_upload_path(instance, filename):
     
     # Return the upload path
     return os.path.join('uploads', unique_filename)
-
+'''
+def file_upload_path(instance, filename):    
+    return os.path.join('excel', instance.category.name, filename)
 
 class File(models.Model):
     DEFAULT_CATEGORY_ID = 1  # Assuming the default category ID is 1
