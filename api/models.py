@@ -130,8 +130,8 @@ def upload_to_index(instance, filename):
 
 class Index(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    index_file = models.FileField(upload_to=upload_to_index, blank=True)
-    config_file = models.FileField(upload_to=upload_to_index, blank=True)
+    index_file = models.JSONField()#models.FileField(upload_to=upload_to_index, blank=True)
+    config_file = models.JSONField()#models.FileField(upload_to=upload_to_index, blank=True)
 
 class Sql(models.Model):    
     mapping = models.OneToOneField(Mapping, on_delete=models.CASCADE)   
